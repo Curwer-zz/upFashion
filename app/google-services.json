@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1082599153926",
+    "firebase_url": "https://fir-fashion-app.firebaseio.com",
+    "project_id": "fir-fashion-app",
+    "storage_bucket": "fir-fashion-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1082599153926:android:f260453cb761e37d",
+        "android_client_info": {
+          "package_name": "com.hjalmarsson.fashion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1082599153926-jh15s7slsqnarhr25fpm4477lbmikmve.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hjalmarsson.fashion",
+            "certificate_hash": "757f778624d0764a9a06acc66461fe3df930314e"
+          }
+        },
+        {
+          "client_id": "1082599153926-4hq9671go9c5k7gkm9920d08mfampmm4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYJ6ePXaDxhkg9lPmIyItzIv0dJt_lIKY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1082599153926-4hq9671go9c5k7gkm9920d08mfampmm4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

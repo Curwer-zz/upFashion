@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
+            app:startDestination="@id/splashFragment">
+
+    <fragment android:id="@+id/splashFragment"
+              android:name="com.hjalmarsson.fashion.ui.splash.SplashFragment"
+              android:label="splash_fragment"
+              tools:layout="@layout/splash_fragment">
+
+        <action android:id="@+id/action_splashFragment_to_popularFragment"
+                app:destination="@id/popularFragment"
+                app:launchSingleTop="true"
+                app:popUpTo="@id/nav_graph"
+                app:popUpToInclusive="true"/>
+        <action android:id="@+id/action_splashFragment_to_profileFragment"
+                app:destination="@id/profileFragment"
+                app:popUpTo="@id/nav_graph"
+                app:popUpToInclusive="true"/>
+        <action android:id="@+id/action_splashFragment_to_wishlistFragment"
+                app:destination="@id/wishlistFragment"
+                app:popUpTo="@id/nav_graph"
+                app:popUpToInclusive="true"/>
+        <action android:id="@+id/action_splashFragment_to_cartFragment"
+                app:destination="@id/cartFragment"
+                app:popUpTo="@id/nav_graph"
+                app:popUpToInclusive="true"
+        />
+    </fragment>
+    <fragment android:id="@+id/profileFragment" android:name="com.hjalmarsson.fashion.ui.profile.ProfileFragment"
+              android:label="profile_fragment" tools:layout="@layout/profile_fragment"/>
+    <fragment android:id="@+id/wishlistFragment" android:name="com.hjalmarsson.fashion.ui.wishlist.WishlistFragment"
+              android:label="wishlist_fragment" tools:layout="@layout/wishlist_fragment"/>
+    <fragment android:id="@+id/popularFragment" android:name="com.hjalmarsson.fashion.ui.popular.PopularFragment"
+              android:label="PopulareFragment"/>
+    <fragment android:id="@+id/cartFragment" android:name="com.hjalmarsson.fashion.ui.CartFragment"
+              android:label="cart_fragment" tools:layout="@layout/cart_fragment"/>
+</navigation>

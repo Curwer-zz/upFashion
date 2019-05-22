@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Fashion</string>
+    <string name="title_new">Trending</string>
+    <string name="title_wishlist">Wish list</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_cart">Cart</string>
+</resources>
