@@ -53,7 +53,8 @@ dependencies {
     kapt("com.google.dagger:dagger-compiler:$dagger_version")
     implementation("com.google.dagger:dagger:$dagger_version")
 
-    implementation("io.reactivex.rxjava2:rxjava:2.2.7")
+
+    implementation("io.reactivex.rxjava2:rxjava:2.2.8")
     implementation("io.reactivex.rxjava2:rxkotlin:2.3.0")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
 
@@ -70,7 +71,7 @@ dependencies {
 
     implementation("androidx.fragment:fragment:1.0.0")
     implementation("com.android.support:design:28.0.0")
-    implementation("com.google.android.material:material:1.1.0-alpha06")
+    implementation("com.google.android.material:material:1.1.0-alpha07")
     implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta1")
 
     implementation("com.mikepenz:fastadapter:3.3.1")
@@ -85,4 +86,5 @@ dependencies {
     implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofit_version")
 
     implementation("com.google.firebase:firebase-core:16.0.9")
+    implementation("com.google.firebase:firebase-database:17.0.0")
 }

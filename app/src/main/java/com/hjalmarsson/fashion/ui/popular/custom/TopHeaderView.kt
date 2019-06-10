@@ -13,17 +13,19 @@ import kotlinx.android.synthetic.main.top_header_view.view.*
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import com.hjalmarsson.fashion.model.HeaderViewModel
+import com.hjalmarsson.fashion.model.HeaderViewItemModel
 import kotlinx.android.synthetic.main.list_item.view.*
 import androidx.viewpager.widget.PagerAdapter
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.viewpager.widget.ViewPager
 import com.hjalmarsson.fashion.misc.MyAnimatorListener
+import com.hjalmarsson.fashion.model.HeaderItem
 import com.hjalmarsson.fashion.util.Util
 
 
-class TopHeaderViewItem : AbstractItem<TopHeaderViewItem, TopHeaderViewItem.ViewHolder>() {
+class TopHeaderViewItem(val headerViewItemModel: HeaderViewItemModel, val openProduct: (View) -> Unit) :
+    AbstractItem<TopHeaderViewItem, TopHeaderViewItem.ViewHolder>() {
     override fun getType(): Int = R.id.item_type_top_header
     override fun getViewHolder(v: View): ViewHolder = ViewHolder(v)
     override fun getLayoutRes(): Int = R.layout.top_header_view
@@ -35,61 +37,13 @@ class TopHeaderViewItem : AbstractItem<TopHeaderViewItem, TopHeaderViewItem.View
         super.bindView(holder, payloads)
         holder.itemView.setPadding(0, Util.getStatusBarHeight(holder.context), 0, 0)
 
-        setData(holder)
-    }
-
-    private fun setData(holder: ViewHolder) {
-        val list = arrayListOf<HeaderViewModel>()
-        list.add(HeaderViewModel(R.drawable.louis_vuitton_bag1, "KEEPALL BANDOULIÈRE"))
-        list.add(HeaderViewModel(R.drawable.louis_vuitton_bag2, "VOYAGE PM"))
-        list.add(HeaderViewModel(R.drawable.louis_vuitton_bag3, "DISTRICT PM"))
-
-        myAdapter = MyAdapter(holder.context, list)
-
-        holder.itemView.pager.adapter = myAdapter
-        holder.itemView.pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {}
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-
-            override fun onPageSelected(position: Int) {
-                selectDot(holder.context, position)
-
-                val animatorTitle = changeTextAnimation(holder.itemView.v_title,
-                    holder.itemView.v_title.height.toFloat())
-
-                val animatorPrice = changeTextAnimation(holder.itemView.v_price,
-                    holder.itemView.v_price.height.toFloat())
-
-                val animatorTitleBack = changeTextAnimation(holder.itemView.v_title,
-                    0f)
-
-                val animatorPriceBack = changeTextAnimation(holder.itemView.v_price,
-                    0f)
-
-                AnimatorSet().apply {
-                    playTogether(listOf(animatorTitle, animatorPrice))
-                    addListener(object : MyAnimatorListener() {
-                        override fun onAnimationEnd(animation: Animator?) {
-                            super.onAnimationEnd(animation)
-
-                            holder.itemView.v_title.text = list[position].title
-
-                            val newSet = AnimatorSet()
-                            newSet.playTogether(listOf(animatorTitleBack, animatorPriceBack))
-                            newSet.start()
-                        }
-                    })
-
-                    start()
-                }
-            }
-        })
-
+        holder.itemView.fab.setOnClickListener { openProduct.invoke(holder.itemView.root) }
 
         val margin = Util.convertDpToPixel(holder.context, 4f).toInt()
         val dimen = Util.convertDpToPixel(holder.context, 4f).toInt()
 
-        list.forEach {
+        dots.clear()
+        headerViewItemModel.data.forEach {
             val dot = AppCompatImageView(holder.context)
             dot.setImageDrawable(ContextCompat.getDrawable(holder.context, R.drawable.dot))
 
@@ -103,8 +57,61 @@ class TopHeaderViewItem : AbstractItem<TopHeaderViewItem, TopHeaderViewItem.View
             dots.add(dot)
         }
 
+        setData(holder)
+    }
+
+    private fun setData(holder: ViewHolder) {
+        myAdapter = MyAdapter(holder.context, headerViewItemModel.data)
+        holder.itemView.pager.adapter = myAdapter
+        holder.itemView.pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {}
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+            override fun onPageSelected(position: Int) {
+                selectDot(holder.context, position)
+
+                val animatorTitle = changeTextAnimation(
+                    holder.itemView.v_title,
+                    holder.itemView.v_title.height.toFloat()
+                )
+
+                val animatorPrice = changeTextAnimation(
+                    holder.itemView.v_price,
+                    holder.itemView.v_price.height.toFloat()
+                )
+
+                val animatorTitleBack = changeTextAnimation(
+                    holder.itemView.v_title,
+                    0f
+                )
+
+                val animatorPriceBack = changeTextAnimation(
+                    holder.itemView.v_price,
+                    0f
+                )
+
+                AnimatorSet().apply {
+                    playTogether(listOf(animatorTitle, animatorPrice))
+                    addListener(object : MyAnimatorListener() {
+                        override fun onAnimationEnd(animation: Animator?) {
+                            super.onAnimationEnd(animation)
+
+                            holder.itemView.v_title.text = headerViewItemModel.data[position].productName
+                            holder.itemView.v_price.text = headerViewItemModel.data[position].productPrice.toString()
+
+                            val newSet = AnimatorSet()
+                            newSet.playTogether(listOf(animatorTitleBack, animatorPriceBack))
+                            newSet.start()
+                        }
+                    })
+
+                    start()
+                }
+            }
+        })
+
         selectDot(holder.context, 0)
-        holder.itemView.v_title.text = list[0].title
+        holder.itemView.v_title.text = headerViewItemModel.data[0].productName
     }
 
     fun changeTextAnimation(target: View, yValue: Float) = ObjectAnimator.ofFloat(
@@ -138,13 +145,13 @@ class TopHeaderViewItem : AbstractItem<TopHeaderViewItem, TopHeaderViewItem.View
             get() = itemView.context
     }
 
-    inner class MyAdapter(private val context: Context, val arrayList: ArrayList<HeaderViewModel>) : PagerAdapter() {
+    inner class MyAdapter(private val context: Context, val arrayList: List<HeaderItem>) : PagerAdapter() {
 
         override fun instantiateItem(parent: ViewGroup, position: Int): Any {
             val layout = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)
             parent.addView(layout)
             //layout.v_title.text = arrayList[position].title
-            layout.v_img_product.setImageDrawable(ContextCompat.getDrawable(context, arrayList[position].image))
+            //layout.v_img_product.setImageDrawable(ContextCompat.getDrawable(context, arrayList[position].productImage))
 
             return layout
         }
@@ -163,7 +170,7 @@ class TopHeaderViewItem : AbstractItem<TopHeaderViewItem, TopHeaderViewItem.View
     /**
      * Use this later when viewPager 2 support page width
      */
-    /*inner class MyAdapter(private val context: Context, val arrayList: ArrayList<HeaderViewModel>) :
+    /*inner class MyAdapter(private val context: Context, val arrayList: ArrayList<HeaderViewItemModel>) :
         RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
         @NonNull

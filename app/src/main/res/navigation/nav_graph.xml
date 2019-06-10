@@ -33,7 +33,18 @@
     <fragment android:id="@+id/wishlistFragment" android:name="com.hjalmarsson.fashion.ui.wishlist.WishlistFragment"
               android:label="wishlist_fragment" tools:layout="@layout/wishlist_fragment"/>
     <fragment android:id="@+id/popularFragment" android:name="com.hjalmarsson.fashion.ui.popular.PopularFragment"
-              android:label="PopulareFragment"/>
+              android:label="PopulareFragment">
+        <action
+            android:id="@+id/action_popularFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment"
+            />
+    </fragment>
     <fragment android:id="@+id/cartFragment" android:name="com.hjalmarsson.fashion.ui.CartFragment"
               android:label="cart_fragment" tools:layout="@layout/cart_fragment"/>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.hjalmarsson.fashion.ui.details.DetailsFragment"
+        android:label="details_fragment"
+        tools:layout="@layout/details_fragment"
+        />
 </navigation>

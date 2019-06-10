@@ -10,7 +10,7 @@ buildscript {
         
     }
     dependencies {
-        classpath ("com.android.tools.build:gradle:3.5.0-beta02")
+        classpath ("com.android.tools.build:gradle:3.5.0-beta03")
         classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
         classpath ("android.arch.navigation:navigation-safe-args-gradle-plugin:$nav_version")
         classpath ("com.google.gms:google-services:4.2.0")

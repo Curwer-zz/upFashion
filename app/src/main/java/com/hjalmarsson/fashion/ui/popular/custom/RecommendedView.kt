@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.hjalmarsson.fashion.R
+import com.hjalmarsson.fashion.util.MarginItemDecoration
+import com.hjalmarsson.fashion.util.Util
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import kotlinx.android.synthetic.main.recommended_view.view.*
@@ -36,9 +38,12 @@ class RecommendedView(private val text: String) : AbstractItem<RecommendedView, 
     }
 
     private fun setupRecycler(holder: ViewHolder) {
-        holder.itemView.v_recycler.layoutManager = LinearLayoutManager(holder.context).apply { this.orientation = LinearLayoutManager.HORIZONTAL }
-        holder.itemView.v_recycler.setHasFixedSize(true)
-        holder.itemView.v_recycler.adapter = fastAdapter
+        holder.itemView.v_recycler.apply {
+            layoutManager = LinearLayoutManager(holder.context).apply { this.orientation = LinearLayoutManager.HORIZONTAL }
+            setHasFixedSize(true)
+            addItemDecoration(MarginItemDecoration(Util.convertDpToPixel(this.context, 8F).toInt()))
+            adapter = fastAdapter
+        }
     }
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
